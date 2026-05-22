@@ -1,0 +1,70 @@
+{{ define "main" }}
+<div class="home">
+
+  <div class="home-feed">
+    <div class="intro">
+      <h1>{{ .Site.Title }}</h1>
+      <p class="tagline">{{ .Site.Params.tagline }}</p>
+    </div>
+
+    {{ $posts := where .Site.RegularPages "Section" "posts" }}
+    {{ if $posts }}
+    <div class="home-section">
+      <h2>recent posts</h2>
+      {{ range first 5 $posts }}
+      <div class="list-item">
+        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        <time>{{ .Date.Format "2006-01-02" }}</time>
+      </div>
+      {{ end }}
+      {{ if gt (len $posts) 5 }}<a href="/posts/" class="see-all">all posts →</a>{{ end }}
+    </div>
+    {{ end }}
+
+    {{ $notes := where .Site.RegularPages "Section" "notes" }}
+    {{ if $notes }}
+    <div class="home-section">
+      <h2>recent notes</h2>
+      {{ range first 3 $notes }}
+      <div class="list-item">
+        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        <time>{{ .Date.Format "2006-01-02" }}</time>
+      </div>
+      {{ end }}
+      {{ if gt (len $notes) 3 }}<a href="/notes/" class="see-all">all notes →</a>{{ end }}
+    </div>
+    {{ end }}
+  </div>
+
+  <aside class="about-card">
+    <div class="about-avatar">{{ upper (substr .Site.Params.author 0 2) }}</div>
+    <div class="about-name">{{ .Site.Params.author }}</div>
+    {{ with .Site.Params.about }}
+    <p class="about-bio">{{ . }}</p>
+    {{ end }}
+    <hr class="about-divider">
+    <div class="about-links">
+      {{ with .Site.Params.email }}
+      <a href="mailto:{{ . }}" class="about-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2" y="4" width="20" height="16" rx="2"/>
+          <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+        </svg>
+        {{ . }}
+      </a>
+      {{ end }}
+      {{ with .Site.Params.linkedin }}
+      <a href="{{ . }}" class="about-link" target="_blank" rel="noopener noreferrer">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+          <rect x="2" y="9" width="4" height="12"/>
+          <circle cx="4" cy="4" r="2"/>
+        </svg>
+        LinkedIn
+      </a>
+      {{ end }}
+    </div>
+  </aside>
+
+</div>
+{{ end }}

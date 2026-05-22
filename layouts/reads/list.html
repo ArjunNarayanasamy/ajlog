@@ -1,0 +1,18 @@
+{{ define "main" }}
+<section>
+  <h1>reads</h1>
+  <p class="section-desc">links worth keeping.</p>
+
+  {{ range $category, $links := hugo.Data.reads }}
+  <div class="reads-group">
+    <h2>{{ $category }}</h2>
+    {{ range $links }}
+    <div class="read-item">
+      <a href="{{ .url }}" target="_blank" rel="noopener noreferrer">{{ .title }}</a>
+      {{ with .note }}<span class="read-note">— {{ . }}</span>{{ end }}
+    </div>
+    {{ end }}
+  </div>
+  {{ end }}
+</section>
+{{ end }}

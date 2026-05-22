@@ -1,0 +1,34 @@
+baseURL: 'https://yourdomain.com/'
+locale: 'en-us'
+title: 'aj'
+
+params:
+  description: "tech, ideas, philosophy"
+  author: "aj"
+  tagline: "writing to think"
+  about: "Software engineer. Interested in tools, systems, and ideas that compound."
+  email: "arjunnarayanasamy@outlook.com"
+  linkedin: "https://www.linkedin.com/in/arjun-narayanasamy-aaa72976/"
+
+menu:
+  main:
+    - name: posts
+      url: /posts/
+      weight: 1
+    - name: notes
+      url: /notes/
+      weight: 2
+    - name: reads
+      url: /reads/
+      weight: 3
+
+markup:
+  highlight:
+    style: monokai
+    noClasses: true
+  goldmark:
+    renderer:
+      unsafe: true
+
+pagination:
+  pagerSize: 20

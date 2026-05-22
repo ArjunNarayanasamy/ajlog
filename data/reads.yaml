@@ -1,0 +1,23 @@
+tools:
+  - title: "Hacker News"
+    url: "https://news.ycombinator.com"
+    note: "daily tech pulse"
+  - title: "Lobsters"
+    url: "https://lobste.rs"
+    note: "curated tech, less noise"
+  - title: "Excalidraw"
+    url: "https://excalidraw.com"
+    note: "whiteboard for thinking"
+
+articles:
+  - title: "The Grug Brained Developer"
+    url: "https://grugbrain.dev"
+    note: "on simplicity and complexity"
+  - title: "Paul Graham Essays"
+    url: "https://paulgraham.com/articles.html"
+    note: "startups, ideas, writing"
+
+philosophy:
+  - title: "Meditations – Marcus Aurelius"
+    url: "https://standardebooks.org/ebooks/marcus-aurelius/meditations/george-long"
+    note: "stoicism, free ebook"

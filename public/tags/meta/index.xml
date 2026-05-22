@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Meta on aj</title>
+    <link>http://localhost:1313/tags/meta/</link>
+    <description>Recent content in Meta on aj</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 22 May 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/meta/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>hello world</title>
+      <link>http://localhost:1313/posts/hello-world/</link>
+      <pubDate>Fri, 22 May 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/hello-world/</guid>
+      <description>&lt;p&gt;This is the first post. The site is live.&lt;/p&gt;&#xA;&lt;p&gt;I&amp;rsquo;m using this as a space to write about tech, ideas, and whatever else is worth putting into words. No particular schedule. No particular audience. Just writing to think.&lt;/p&gt;&#xA;&lt;h2 id=&#34;what-this-place-is&#34;&gt;what this place is&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;posts&lt;/strong&gt; — longer, considered pieces&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;notes&lt;/strong&gt; — shorter, rougher thoughts&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;reads&lt;/strong&gt; — links I keep coming back to&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;why-hugo&#34;&gt;why hugo&lt;/h2&gt;&#xA;&lt;p&gt;Static, fast, no database, no CMS, deploys as files. Writing is just Markdown. Fits the way I think about tools: do one thing, do it well, stay out of the way.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

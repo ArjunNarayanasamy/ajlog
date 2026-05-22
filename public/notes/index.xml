@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>notes on aj</title>
+    <link>http://localhost:1313/notes/</link>
+    <description>Recent content in notes on aj</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 22 May 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>on tools</title>
+      <link>http://localhost:1313/notes/on-tools/</link>
+      <pubDate>Fri, 22 May 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/notes/on-tools/</guid>
+      <description>&lt;p&gt;A good tool disappears. You stop thinking about the tool and start thinking about the work.&lt;/p&gt;&#xA;&lt;p&gt;Most software fails this. It makes itself the center of attention — notifications, settings, updates, opinions about your workflow.&lt;/p&gt;&#xA;&lt;p&gt;The best tools I&amp;rsquo;ve used have this in common: they do exactly one thing, they do it fast, and they get out of the way.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
