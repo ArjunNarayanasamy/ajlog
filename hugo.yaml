@@ -1,6 +1,6 @@
 baseURL: 'https://yourdomain.com/'
 locale: 'en-us'
-title: 'aj'
+title: 'Arjun Narayanasamy (AJ)'
 
 params:
   description: "tech, ideas, philosophy"
@@ -21,6 +21,9 @@ menu:
     - name: reads
       url: /reads/
       weight: 3
+    - name: philosophy
+      url: /philosophy/
+      weight: 4
 
 markup:
   highlight:
