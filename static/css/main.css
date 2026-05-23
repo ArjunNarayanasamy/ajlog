@@ -286,7 +286,12 @@ main.home-main {
   color: var(--accent);
   font-size: 0.95rem;
 }
-.list-item a:hover { opacity: 0.75; text-decoration: none; }
+.list-item a::before {
+  content: '>';
+  margin-right: 0.5rem;
+  font-size: 0.8rem;
+}
+.list-item a:hover { opacity: 1; text-decoration: none; }
 
 .list-item time {
   font-family: var(--mono);
