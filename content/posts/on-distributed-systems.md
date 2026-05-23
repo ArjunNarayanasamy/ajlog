@@ -1,5 +1,5 @@
 ---
-title: "on distributed systems"
+title: "on distributed systems and why everyone gets them wrong the first time"
 date: 2026-05-12
 draft: false
 tags: ["distributed-systems", "architecture"]

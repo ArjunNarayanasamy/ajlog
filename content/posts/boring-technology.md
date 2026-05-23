@@ -1,5 +1,5 @@
 ---
-title: "in defense of boring technology"
+title: "in defense of boring technology and why you should resist the urge to adopt the new shiny thing"
 date: 2026-05-06
 draft: false
 tags: ["engineering", "culture"]

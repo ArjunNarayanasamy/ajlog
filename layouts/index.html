@@ -91,6 +91,15 @@
       {{ end }}
       <a href="/reads/" class="reads-sidebar-all">all reads →</a>
     </div>
+
+    <div class="tags-sidebar-card">
+      <div class="reads-sidebar-heading">tags</div>
+      <div class="tags-sidebar-list">
+        {{ range $name, $taxonomy := $.Site.Taxonomies.tags }}
+        <a href="/tags/{{ $name | urlize }}/" class="tag">{{ $name }}<span class="tag-num">{{ len $taxonomy }}</span></a>
+        {{ end }}
+      </div>
+    </div>
   </div>
 
 </div>

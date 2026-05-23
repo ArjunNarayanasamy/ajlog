@@ -1,6 +1,6 @@
 baseURL: 'https://yourdomain.com/'
 locale: 'en-us'
-title: 'Arjun Narayanasamy (AJ)'
+title: 'Arjun Narayanasamy'
 
 params:
   description: "tech, ideas, philosophy"

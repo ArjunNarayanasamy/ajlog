@@ -1,0 +1,14 @@
+{{ define "main" }}
+<section>
+  <h1>tags</h1>
+  <p class="section-desc">{{ len .Data.Terms }} tags across all posts</p>
+  <div class="tags-list">
+    {{ range .Data.Terms.Alphabetical }}
+    <a href="{{ .Page.RelPermalink }}" class="tag tag-count">
+      {{ .Page.Title }}
+      <span class="tag-num">{{ .Count }}</span>
+    </a>
+    {{ end }}
+  </div>
+</section>
+{{ end }}
