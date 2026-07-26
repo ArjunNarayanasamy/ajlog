@@ -1,18 +1,16 @@
 ---
-title: "on distributed systems and why everyone gets them wrong the first time"
+title: "The distributed systems and why everyone gets them wrong the first time"
 date: 2026-05-12
 draft: false
 tags: ["distributed-systems", "architecture"]
 description: "the hardest part isn't the tech, it's accepting what you can't have"
 ---
 
-The CAP theorem isn't just a theorem. It's a reminder that some problems don't have solutions, only tradeoffs.
-
-You can have consistency or availability during a partition. Not both. Every distributed system you build is an answer to the question: which one matters more here?
-
-## the fallacies hold up
+## The fallacies still hold up
 
 Peter Deutsch's eight fallacies of distributed computing were written in 1994. They're still true.
+
+<div class="with-figure">
 
 | Fallacy | Why it hurts |
 |---|---|
@@ -25,9 +23,13 @@ Peter Deutsch's eight fallacies of distributed computing were written in 1994. T
 | Transport cost is zero | Serialization and network I/O have real cost. |
 | The network is homogeneous | Mixed clouds, VPNs, edge — all different. |
 
+{{< person-card name="Peter Deutsch" img="/images/people/peter-deutsch.jpg" link="https://en.wikipedia.org/wiki/L._Peter_Deutsch" >}}
+
+</div>
+
 If your system assumes any of these are false, you will be surprised in production. Not if — when.
 
-## the cap theorem visualized
+## The CAP theorem 
 
 ```mermaid
 graph TD
@@ -39,6 +41,15 @@ graph TD
     A --> note
     P --> note
 ```
+The CAP theorem isn't just a theorem. It's a reminder that some problems don't have solutions, only tradeoffs.
+
+You can have consistency or availability during a partition. Not both. Every distributed system you build is an answer to the question: which one matters more here?
+
+Networks will occasionally fail, meaning Partition Tolerance (P) is a must in distributed architectures. So you must chose between Consistency (CP) or Availability (AP).
+
+**CP Systems:** Choose consistency over uptime. They block or reject requests if nodes cannot sync up properly (e.g., banking and payment systems).
+
+**AP Systems:** Choose availability over strict correctness. They keep responding with older data and sync later (e.g., shopping carts and social media feeds).
 
 ## clocks are liars
 
