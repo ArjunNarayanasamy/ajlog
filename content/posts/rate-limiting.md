@@ -6,7 +6,7 @@ tags: ["systems-design", "backend"]
 description: "what to key on, where to enforce it, and the algorithms behind it"
 ---
 
-Rate limiting sounds simple until you have to actually build one. The concept is one sentence — stop a client from making too many requests — but the decisions underneath it stack up fast.
+Rate limiting sounds simple until you have to actually build one. The concept is one sentence — <span class="accent-em">stop a client from making too many requests</span> — but the decisions underneath it stack up fast.
 
 ## what basis do you limit on
 
