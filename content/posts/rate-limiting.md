@@ -1,12 +1,12 @@
 ---
-title: "rate limiting, the basics"
+title: "Rate limiting"
 date: 2026-07-26
 draft: false
 tags: ["systems-design", "backend"]
 description: "what to key on, where to enforce it, and the algorithms behind it"
 ---
 
-Rate limiting sounds simple until you have to actually build one. The concept is one sentence — <span class="accent-em">stop a client from making too many requests</span> — but the decisions underneath it stack up fast.
+Rate limiting sounds simple until you have to actually build one. The concept is one sentence  <span class="accent-em">"stop a client from making too many requests"</span> but the decisions underneath it stack up fast.
 
 ## what basis do you limit on
 
@@ -53,7 +53,7 @@ The two get used interchangeably, but they're not quite the same. Rate limiting 
 
 This is a starter — next up is an actual POC with code for a couple of these algorithms.
 
-**further reading**
+**References**
 - [ByteByteGo: Design a Rate Limiter](https://bytebytego.com/courses/system-design-interview/design-a-rate-limiter)
 - [AWS: API Gateway request throttling](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-request-throttling.html)
 - [Cloudflare: Counting things, a lot of different things](https://blog.cloudflare.com/counting-things-a-lot-of-different-things/)
