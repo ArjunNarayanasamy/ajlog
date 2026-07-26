@@ -1,7 +1,7 @@
 ---
 title: "rate limiting, the basics"
 date: 2026-07-26
-draft: true
+draft: false
 tags: ["systems-design", "backend"]
 description: "what to key on, where to enforce it, and the algorithms behind it"
 ---
