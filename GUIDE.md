@@ -1,4 +1,4 @@
-# Site Guide
+G# Site Guide
 
 Everything you need to run, write, and maintain this Hugo site.
 
@@ -274,6 +274,15 @@ ajlog/
 │       └── main.css    ← all site styles
 ├── hugo.yaml           ← site config, title, menu, social links
 └── GUIDE.md            ← this file
+```
+
+## 9. Starter
+```
+Hugo static site with three content types — posts (long-form, tags/description), notes (short, no tags), and philosophy — all rendered on the homepage in "recent" sections, each linking out to their own /section/ listing page.
+
+Homepage template (index.html) pulls RegularPages by section, shows up to 10 per section with title + date, plus a sidebar with about/links, curated reads (data/reads.yaml), and a tag cloud.
+
+Writing workflow (per GUIDE.md): create content/posts/your-title.md, front matter with title, date, draft, tags, description, write markdown body, flip draft: false to publish.
 ```
 
 **To update your bio or contact links**, edit `hugo.yaml`:
