@@ -4,6 +4,9 @@
   <div class="home-feed">
     <div class="intro">
       <p class="tagline">{{ .Site.Params.tagline }}</p>
+      {{ with .Site.Params.taglineAuthor }}
+      <p class="tagline-attribution">— {{ . }}, <a href="{{ $.Site.Params.taglineBookUrl }}" target="_blank" rel="noopener noreferrer">{{ $.Site.Params.taglineBook }}</a></p>
+      {{ end }}
     </div>
 
     {{ $posts := where .Site.RegularPages "Section" "posts" }}

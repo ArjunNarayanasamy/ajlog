@@ -5,8 +5,11 @@ title: 'Arjun Narayanasamy'
 params:
   description: "tech, ideas, philosophy"
   author: "aj"
-  tagline: "writing to think"
-  about: "Software engineer. Interested in tools, systems, and ideas that compound. Passionate about Scalable, Reliable and Performant distributed systems."
+  tagline: "“Programs must be written for people to read, and only incidentally for machines to execute.”"
+  taglineAuthor: "Harold Abelson & Gerald Jay Sussman"
+  taglineBook: "Structure and Interpretation of Computer Programs, 1985."
+  taglineBookUrl: "https://web.mit.edu/6.001/6.037/sicp.pdf"
+  about: "Software engineer. Interested in tools, systems, and ideas that compound. Passionate about scalable, reliable and performant distributed systems."
   email: "aj.nsmy@gmail.com"
   linkedin: "https://www.linkedin.com/in/arjun-narayanasamy-aaa72976/"
 

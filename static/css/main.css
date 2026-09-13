@@ -159,7 +159,7 @@ main.home-main {
 
 .about-bio {
   font-size: 0.82rem;
-  color: var(--muted);
+  color: #000000;
   line-height: 1.65;
   margin: 0;
 }
@@ -256,8 +256,20 @@ main.home-main {
   margin-bottom: 0.35rem;
 }
 .tagline {
-  color: var(--muted);
+  color: #000000;
   font-size: 0.95rem;
+}
+.tagline-attribution {
+  color: #000000;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+}
+.tagline-attribution a {
+  color: #000000;
+  text-decoration: underline;
+}
+.tagline-attribution a:hover {
+  color: inherit;
 }
 
 .home-section {
