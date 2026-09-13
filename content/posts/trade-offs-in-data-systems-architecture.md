@@ -43,7 +43,7 @@ A **data warehouse** uses a relational data model, queried with SQL — well sui
 
 To meet this need, organizations turned to the **data lake**: a centralized repository for data pulled from operational systems via ETL, stored as simple files without imposing any particular file format or data model. It holds data in its *raw* form, and is also cheaper to run than relational storage.
 
-<img src="/images/datalake.png" alt="Data Lake" class="size-md">
+![Data Lake](/images/datalake.png)
 *Diagram via Martin Fowler's [Data Lake](https://martinfowler.com/bliki/DataLake.html)*
 
 ## References
