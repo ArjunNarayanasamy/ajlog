@@ -1,13 +1,13 @@
 /* ── Variables ────────────────────────────────── */
 :root {
-  --bg:      #ffffff;
-  --fg:      #1a1918;
-  --muted:   #736f68;
-  --accent:  #2563eb;
-  --border:  #e0ddd5;
-  --code-bg: #eceae2;
-  --font:    "Lora", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --mono:    "Lora", "JetBrains Mono", "Fira Code", "Cascadia Code", Consolas, monospace;
+  --bg:      #1e1e1e;
+  --fg:      #d4d4d4;
+  --muted:   #9a9a9a;
+  --accent:  #4fc1ff;
+  --border:  #3c3c3c;
+  --code-bg: #252526;
+  --font:    "Literata", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:    "Literata", "JetBrains Mono", "Fira Code", "Cascadia Code", Consolas, monospace;
   --width:   1400px;
   --gap:     1.5rem;
 }
@@ -45,7 +45,7 @@ header {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(245, 244, 239, 0.88);
+  background: rgba(30, 30, 30, 0.88);
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06), 0 2px 12px rgba(0, 0, 0, 0.05);
@@ -85,12 +85,12 @@ nav ul li a {
 }
 nav ul li a:hover {
   color: var(--fg);
-  background: rgba(0, 0, 0, 0.055);
+  background: rgba(255, 255, 255, 0.08);
   text-decoration: none;
 }
 nav ul li a.active {
   color: var(--fg);
-  background: rgba(0, 0, 0, 0.07);
+  background: rgba(255, 255, 255, 0.1);
   text-decoration: none;
 }
 
@@ -125,7 +125,7 @@ main.home-main {
 
 /* ── About card ───────────────────────────────── */
 .about-card {
-  background: #fff;
+  background: var(--code-bg);
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 1.5rem;
@@ -137,7 +137,7 @@ main.home-main {
   height: 42px;
   border-radius: 50%;
   background: var(--fg);
-  color: #fff;
+  color: var(--bg);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -159,7 +159,7 @@ main.home-main {
 
 .about-bio {
   font-size: 0.82rem;
-  color: #000000;
+  color: var(--fg);
   line-height: 1.65;
   margin: 0;
 }
@@ -193,7 +193,7 @@ main.home-main {
 
 /* ── Reads sidebar card ───────────────────────── */
 .reads-sidebar-card {
-  background: #fff;
+  background: var(--code-bg);
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 1.5rem;
@@ -256,16 +256,16 @@ main.home-main {
   margin-bottom: 0.35rem;
 }
 .tagline {
-  color: #000000;
+  color: var(--fg);
   font-size: 0.95rem;
 }
 .tagline-attribution {
-  color: #000000;
+  color: var(--fg);
   font-size: 0.8rem;
   margin-top: 0.25rem;
 }
 .tagline-attribution a {
-  color: #000000;
+  color: var(--fg);
   text-decoration: underline;
 }
 .tagline-attribution a:hover {
@@ -339,7 +339,7 @@ section > h1 {
 .article-header {
   margin-bottom: 1rem;
   padding: 1rem 1rem;
-  background: rgba(245, 244, 239, 0.88);
+  background: rgba(37, 37, 38, 0.9);
   border: 1px solid var(--border);
   border-radius: 14px;
   box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 20px rgba(0,0,0,0.04);
@@ -369,7 +369,7 @@ section > h1 {
 .tags { display: flex; gap: 0.4rem; flex-wrap: wrap; }
 .tag {
   background: var(--accent);
-  color: #fff;
+  color: var(--bg);
   font-family: var(--mono);
   font-size: 0.7rem;
   padding: 0.2em 0.6em;
@@ -381,7 +381,7 @@ section > h1 {
 .tag:hover { opacity: 0.8; text-decoration: none; }
 
 .tags-sidebar-card {
-  background: #fff;
+  background: var(--code-bg);
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 1.5rem;
@@ -424,7 +424,7 @@ section > h1 {
 .content ul, .content ol { margin: 0.9rem 0; padding-left: 1.5rem; }
 .content li { margin: 0.35rem 0; }
 
-.content .accent-em { font-style: italic; color: #803204; }
+.content .accent-em { font-style: italic; color: #e2984c; }
 
 .content a { border-bottom: 1px solid var(--border); }
 .content a:hover { border-color: var(--accent); text-decoration: none; }
