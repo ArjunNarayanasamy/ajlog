@@ -1,0 +1,6 @@
+<a href="{{ .Destination | safeURL }}"
+  {{- with .Title }} title="{{ . }}"{{ end }}
+  {{- if not (strings.HasPrefix .Destination "#") }} target="_blank" rel="noopener noreferrer"{{ end }}>
+  {{- .Text -}}
+</a>
+{{- /* chomp trailing newline */ -}}

@@ -288,7 +288,6 @@ main.home-main {
 /* ── List items (posts, notes) ────────────────── */
 .list-item {
   display: flex;
-  justify-content: space-between;
   align-items: baseline;
   gap: 1rem;
   padding: 0.1rem 0;
@@ -298,18 +297,15 @@ main.home-main {
   color: var(--accent);
   font-size: 0.95rem;
 }
-.list-item a::before {
-  content: '>';
-  margin-right: 0.5rem;
-  font-size: 0.8rem;
-}
 .list-item a:hover { opacity: 1; text-decoration: none; }
 
 .list-item time {
+  order: -1;
+  min-width: 10ch;
   font-family: var(--mono);
-  font-size: 0.68rem;
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
   color: var(--muted);
-  opacity: 0.7;
   white-space: nowrap;
   flex-shrink: 0;
 }
@@ -460,6 +456,63 @@ section > h1 {
   font-style: italic;
 }
 
+.content sup { line-height: 0; }
+.content sup[id^="fnref"] { vertical-align: 0.3em; margin-left: 0.15em; }
+.content a.footnote-ref {
+  display: inline-block;
+  min-width: 1.5em;
+  padding: 0.15em 0.45em;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  color: var(--accent);
+  background: rgba(79, 193, 255, 0.12);
+  border: 1px solid rgba(79, 193, 255, 0.5);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.content a.footnote-ref:hover,
+.content a.footnote-ref[aria-expanded="true"] {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+  text-decoration: none;
+}
+
+.footnote-popup {
+  position: absolute;
+  z-index: 200;
+  width: min(380px, calc(100vw - 2rem));
+  background: var(--code-bg);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+}
+.footnote-popup p { margin: 0; }
+.footnote-popup p + p { margin-top: 0.5rem; }
+.footnote-popup-num {
+  float: left;
+  margin-right: 0.5rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.content .footnotes {
+  margin-top: 2.5rem;
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+.content .footnotes hr { margin: 0 0 1rem; }
+.content .footnotes li p { margin: 0.3rem 0; }
+.content a.footnote-backref { border-bottom: none; margin-left: 0.25rem; }
+
 .content hr {
   border: none;
   border-top: 1px solid var(--border);
@@ -568,8 +621,7 @@ footer {
 
 @media (max-width: 600px) {
   :root { --gap: 1rem; }
-  .list-item { gap: 0.5rem; }
-  .list-item time { font-size: 0.68rem; color: var(--muted); opacity: 0.7; }
+  .list-item { gap: 0.75rem; }
   .article-header h1 { font-size: 1.35rem; }
   header nav { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
   nav ul { gap: 0.1rem; }

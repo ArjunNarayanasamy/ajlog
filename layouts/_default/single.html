@@ -21,4 +21,7 @@
   mermaid.initialize({ startOnLoad: true, theme: 'neutral' });
 </script>
 {{ end }}
+{{ if in .Content "footnote-ref" }}
+<script src="/js/footnotes.js" defer></script>
+{{ end }}
 {{ end }}
