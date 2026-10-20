@@ -6,6 +6,10 @@ tags: ["distributed-systems", "architecture"]
 description: "the hardest part isn't the tech, it's accepting what you can't have"
 ---
 
+> "A distributed system is one in which the failure of a computer you didn't even know existed can render your own computer unusable."
+>
+> — Leslie Lamport, 1987
+
 ## The fallacies still hold up
 
 Peter Deutsch's eight fallacies of distributed computing were written in 1994. They're still true.

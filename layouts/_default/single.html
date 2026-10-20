@@ -22,6 +22,6 @@
 </script>
 {{ end }}
 {{ if in .Content "footnote-ref" }}
-<script src="/js/footnotes.js" defer></script>
+<script src="/js/footnotes.js?v={{ now.Unix }}" defer></script>
 {{ end }}
 {{ end }}

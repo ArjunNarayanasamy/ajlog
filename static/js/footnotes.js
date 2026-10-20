@@ -43,14 +43,18 @@
 
   document.addEventListener('click', function (e) {
     const ref = e.target.closest('a.footnote-ref');
-    if (ref) {
-      e.preventDefault();
-      const same = open && open.ref === ref;
-      close();
-      if (!same) show(ref);
-      return;
-    }
-    if (open && !open.popup.contains(e.target)) close();
+    if (!ref) return;
+    e.preventDefault();
+    const same = open && open.ref === ref;
+    close();
+    if (!same) show(ref);
+  });
+
+  // iOS Safari doesn't dispatch click for taps on non-interactive elements, so dismiss on pointerdown.
+  document.addEventListener('pointerdown', function (e) {
+    if (!open) return;
+    if (open.popup.contains(e.target) || e.target.closest('a.footnote-ref')) return;
+    close();
   });
 
   document.addEventListener('keydown', function (e) {
