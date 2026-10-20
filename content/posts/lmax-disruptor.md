@@ -23,6 +23,10 @@ The term comes from racing driver Jackie Stewart, who said you don't need to be 
 
 {{< diagram name="cpu-cache-hierarchy" caption="Approximate figures for a modern x86 CPU. Each step away from the core is slower, and main memory is roughly 80× slower than L1." >}}
 
+The above numbers assume a single CPU socket.[^numa]
+
+[^numa]: On multi-socket servers, each socket has its own memory (a NUMA node); reaching the other socket's memory or caches costs noticeably more, which is why low-latency deployments pin related threads to cores on the same socket. I go into how and why in [CPU Affinity - Pinning Threads to Cores]({{< relref "cpu-affinity" >}}).
+
 ### False Sharing
 
 ### Memory Barriers

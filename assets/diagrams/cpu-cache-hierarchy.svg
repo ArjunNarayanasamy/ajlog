@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 530" role="img" aria-labelledby="cpu-cache-title cpu-cache-desc">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 466" role="img" aria-labelledby="cpu-cache-title cpu-cache-desc">
   <title id="cpu-cache-title">CPU cache hierarchy and access latency</title>
   <desc id="cpu-cache-desc">Two cores, each with private registers, L1 and L2 caches, share an L3 cache on the CPU package. Main memory sits off-chip across the memory bus. Approximate latency: registers 0.3 ns, L1 1 ns, L2 4 ns, L3 12 ns, main memory 80 ns. A trip to main memory costs roughly 80 times an L1 hit.</desc>
 
@@ -19,13 +19,13 @@
   <text class="mid" x="127.5" y="92">registers</text>
   <rect class="box l1" x="35" y="120" width="88" height="40" rx="4"/>
   <text class="mid" x="79" y="137">L1d</text>
-  <text class="sub mid" x="79" y="152">32–48 KB</text>
+  <text class="sub mid" x="79" y="152">32–256 KB</text>
   <rect class="box l1" x="132" y="120" width="88" height="40" rx="4"/>
   <text class="mid" x="176" y="137">L1i</text>
-  <text class="sub mid" x="176" y="152">32 KB</text>
+  <text class="sub mid" x="176" y="152">32–256 KB</text>
   <rect class="box l2" x="35" y="176" width="185" height="50" rx="4"/>
   <text class="mid" x="127.5" y="197">L2</text>
-  <text class="sub mid" x="127.5" y="214">256 KB – 2 MB, per core</text>
+  <text class="sub mid" x="127.5" y="214">128 KB – 2 MB, per core</text>
 
   <!-- Core 1 -->
   <rect class="core" x="255" y="36" width="215" height="204" rx="6"/>
@@ -34,28 +34,28 @@
   <text class="mid" x="362.5" y="92">registers</text>
   <rect class="box l1" x="270" y="120" width="88" height="40" rx="4"/>
   <text class="mid" x="314" y="137">L1d</text>
-  <text class="sub mid" x="314" y="152">32–48 KB</text>
+  <text class="sub mid" x="314" y="152">32–256 KB</text>
   <rect class="box l1" x="367" y="120" width="88" height="40" rx="4"/>
   <text class="mid" x="411" y="137">L1i</text>
-  <text class="sub mid" x="411" y="152">32 KB</text>
+  <text class="sub mid" x="411" y="152">32–256 KB</text>
   <rect class="box l2" x="270" y="176" width="185" height="50" rx="4"/>
   <text class="mid" x="362.5" y="197">L2</text>
-  <text class="sub mid" x="362.5" y="214">256 KB – 2 MB, per core</text>
+  <text class="sub mid" x="362.5" y="214">128 KB – 2 MB, per core</text>
 
   <!-- Shared L3 -->
   <rect class="box l3" x="20" y="258" width="450" height="60" rx="4"/>
   <text class="mid" x="245" y="284">L3 (shared by all cores)</text>
-  <text class="sub mid" x="245" y="302">8 – 64 MB</text>
+  <text class="sub mid" x="245" y="302">1 – 32 MB</text>
 
   <!-- ── Memory bus ──────────────────────────────── -->
-  <line class="wire" x1="245" y1="322" x2="245" y2="436" marker-start="url(#cpu-cache-arrow)" marker-end="url(#cpu-cache-arrow)"/>
-  <text class="sub" x="257" y="384">memory bus, off the chip</text>
-  <text class="sub" x="257" y="399">the long way round</text>
+  <line class="wire" x1="245" y1="322" x2="245" y2="372" marker-start="url(#cpu-cache-arrow)" marker-end="url(#cpu-cache-arrow)"/>
+  <text class="sub" x="257" y="352">memory bus, off the chip</text>
+  <text class="sub" x="257" y="366">the long way round</text>
 
   <!-- ── Main memory ─────────────────────────────── -->
-  <rect class="box ram" x="20" y="440" width="450" height="70" rx="4"/>
-  <text class="mid" x="245" y="471">Main memory (DRAM)</text>
-  <text class="sub mid" x="245" y="489">GBs, off-chip</text>
+  <rect class="box ram" x="20" y="376" width="450" height="70" rx="4"/>
+  <text class="mid" x="245" y="407">Main memory (DRAM)</text>
+  <text class="sub mid" x="245" y="425">GBs, off-chip</text>
 
   <!-- ── Latency ladder ──────────────────────────── -->
   <text class="head" x="500" y="27">CYCLES</text>
@@ -66,7 +66,7 @@
   <line class="guide" x1="458" y1="140" x2="494" y2="140"/>
   <line class="guide" x1="458" y1="201" x2="494" y2="201"/>
   <line class="guide" x1="473" y1="288" x2="494" y2="288"/>
-  <line class="guide" x1="473" y1="475" x2="494" y2="475"/>
+  <line class="guide" x1="473" y1="411" x2="494" y2="411"/>
 
   <!-- bars: 2.75 px per ns, so RAM (80 ns) is 220 px and L1 (1 ns) is barely there -->
   <text class="sub" x="500" y="92">≈ 1</text>
@@ -85,7 +85,7 @@
   <rect class="bar" x="580" y="281" width="33" height="14"/>
   <text class="value" x="621" y="293">~12 ns</text>
 
-  <text class="sub" x="500" y="479">≈ 250</text>
-  <rect class="bar" x="580" y="468" width="220" height="14"/>
-  <text class="value" x="808" y="480">~80 ns</text>
+  <text class="sub" x="500" y="415">≈ 250</text>
+  <rect class="bar" x="580" y="404" width="220" height="14"/>
+  <text class="value" x="808" y="416">~80 ns</text>
 </svg>
