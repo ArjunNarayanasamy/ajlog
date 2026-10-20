@@ -540,6 +540,43 @@ section > h1 {
 }
 .content th { background: var(--code-bg); font-weight: 600; }
 
+/* ── Diagrams (inline SVG via the diagram shortcode) ── */
+.diagram { margin: 2rem 0; }
+.diagram-scroll { overflow-x: auto; }
+.diagram svg {
+  display: block;
+  width: 100%;
+  max-width: 860px;
+  min-width: 640px;
+  height: auto;
+  margin: 0 auto;
+}
+.diagram figcaption {
+  margin-top: 0.75rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-align: center;
+}
+.diagram text { fill: var(--fg); font-family: var(--font); font-size: 13px; }
+.diagram .mid { text-anchor: middle; }
+.diagram .sub { fill: var(--muted); font-size: 11px; }
+.diagram .title { font-weight: 600; }
+.diagram .head { fill: var(--muted); font-size: 10.5px; letter-spacing: 0.08em; }
+.diagram .value { fill: var(--accent); font-weight: 600; }
+.diagram .group { fill: none; stroke: var(--muted); stroke-opacity: 0.6; stroke-dasharray: 5 4; }
+.diagram .core { fill: none; stroke: var(--muted); stroke-width: 1.5; }
+.diagram .box {
+  fill: var(--accent);
+  fill-opacity: 0.08;
+  stroke: var(--accent);
+  stroke-opacity: 0.55;
+  stroke-width: 1.5;
+}
+.diagram .wire { stroke: var(--fg); stroke-width: 1.5; stroke-dasharray: 6 4; }
+.diagram .arrowhead { fill: var(--fg); }
+.diagram .guide { stroke: var(--muted); stroke-opacity: 0.6; stroke-dasharray: 2 3; }
+.diagram .bar { fill: var(--accent); }
+
 /* ── With-figure layout (content + person-card side by side) ── */
 .with-figure {
   display: flex;

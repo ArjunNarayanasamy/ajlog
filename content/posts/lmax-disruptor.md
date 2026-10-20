@@ -21,6 +21,8 @@ The term comes from racing driver Jackie Stewart, who said you don't need to be 
 
 ### CPU Caches and Cache Lines
 
+{{< diagram name="cpu-cache-hierarchy" caption="Approximate figures for a modern x86 CPU. Each step away from the core is slower, and main memory is roughly 80× slower than L1." >}}
+
 ### False Sharing
 
 ### Memory Barriers

@@ -1,0 +1,11 @@
+{{- $name := .Get "name" -}}
+{{- $svg := resources.Get (printf "diagrams/%s.svg" $name) -}}
+{{- if not $svg -}}
+  {{- errorf "diagram %q not found, expected assets/diagrams/%s.svg: %s" $name $name .Position -}}
+{{- end -}}
+<figure class="diagram">
+  <div class="diagram-scroll">{{ $svg.Content | safeHTML }}</div>
+  {{- with .Get "caption" }}
+  <figcaption>{{ . | markdownify }}</figcaption>
+  {{- end }}
+</figure>
