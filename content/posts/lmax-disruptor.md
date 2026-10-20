@@ -25,7 +25,7 @@ The term comes from racing driver Jackie Stewart, who said you don't need to be 
 
 The above numbers assume a single CPU socket.[^numa]
 
-[^numa]: On multi-socket servers, each socket has its own memory (a NUMA node); reaching the other socket's memory or caches costs noticeably more, which is why low-latency deployments pin related threads to cores on the same socket. I go into how and why in [CPU Affinity - Pinning Threads to Cores]({{< relref "cpu-affinity" >}}).
+[^numa]: On multi-socket servers, each socket has its own memory (a NUMA node); reaching the other socket's memory or caches costs noticeably more, which is why low-latency deployments pin related threads to cores on the same socket. I go into how and why in {{< post-link path="posts/cpu-affinity" text="CPU Affinity - Pinning Threads to Cores" >}}.
 
 ### False Sharing
 

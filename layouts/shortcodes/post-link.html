@@ -1,0 +1,7 @@
+{{- /* Links to another post if it's built (i.e. published), else renders plain text, so linking to a draft never breaks the build. */ -}}
+{{- $text := .Get "text" -}}
+{{- with site.GetPage (.Get "path") -}}
+<a href="{{ .RelPermalink }}">{{ $text }}</a>
+{{- else -}}
+{{ $text }}
+{{- end -}}
