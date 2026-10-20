@@ -105,8 +105,10 @@ Jay Kreps' essay *The Log* (2013) argues that an append-only, ordered **log** of
 Traditional databases tie storage and compute to the same machines. Cloud-native systems pull them apart:
 
 * **Snowflake** (Dageville et al., 2016) keeps data in cloud object storage and runs independent, elastic compute clusters — *virtual warehouses* — on top of it, so you can scale queries without moving data.
-* **Amazon Aurora** (Verbitski et al., 2017) pushes the log down into a distributed storage layer — *the log is the database* — so the database sends only redo log records over the network.
+* **Amazon Aurora** (Verbitski et al., 2017)[^aurora] pushes the log down into a distributed storage layer — *the log is the database* — so the database sends only redo log records over the network.
 * **Amazon Redshift** (Gupta et al., 2015) makes the case that for many customers, *simplicity* — a managed service that just works — matters more than raw features.
+
+[^aurora]: Verbitski et al., [Amazon Aurora: Design Considerations for High Throughput Cloud-Native Relational Databases](https://pages.cs.wisc.edu/~yxy/cs764-f20/papers/aurora-sigmod-17.pdf), SIGMOD 2017. The paper argues that in the cloud, the bottleneck shifts from compute and storage to the **network**. Aurora's answer is to offload *redo log processing* to a scale-out storage service: the database instance writes only redo log records, and storage builds the data pages, takes backups and repairs itself in the background. Data is replicated **six ways across three availability zones** using quorums (*4 of 6* for writes, *3 of 6* for reads), so it survives losing an entire zone.
 
 ### Serverless
 
