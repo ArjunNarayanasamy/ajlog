@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 305" role="img" aria-labelledby="mem-loc-title mem-loc-desc">
+  <title id="mem-loc-title">Array versus linked list in memory</title>
+  <desc id="mem-loc-desc">An array of 16 longs sits contiguously in memory and spans two 64-byte cache lines: one fetch brings in eight elements, and the prefetcher loads the next line ahead of time. A linked list's five nodes are scattered across the heap, so following each next pointer jumps to an unrelated address and may cost a separate trip to main memory.</desc>
+
+  <defs>
+    <marker id="mem-loc-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path class="arrowhead" d="M0,0 L10,5 L0,10 z"/>
+    </marker>
+  </defs>
+
+  <!-- ── Array ───────────────────────────────────── -->
+  <text class="head" x="20" y="27">ARRAY: ELEMENTS SIDE BY SIDE IN MEMORY</text>
+
+  <rect class="box ok" x="20"  y="40" width="48" height="36"/>
+  <rect class="box ok" x="68"  y="40" width="48" height="36"/>
+  <rect class="box ok" x="116" y="40" width="48" height="36"/>
+  <rect class="box ok" x="164" y="40" width="48" height="36"/>
+  <rect class="box ok" x="212" y="40" width="48" height="36"/>
+  <rect class="box ok" x="260" y="40" width="48" height="36"/>
+  <rect class="box ok" x="308" y="40" width="48" height="36"/>
+  <rect class="box ok" x="356" y="40" width="48" height="36"/>
+  <rect class="box ok" x="404" y="40" width="48" height="36"/>
+  <rect class="box ok" x="452" y="40" width="48" height="36"/>
+  <rect class="box ok" x="500" y="40" width="48" height="36"/>
+  <rect class="box ok" x="548" y="40" width="48" height="36"/>
+  <rect class="box ok" x="596" y="40" width="48" height="36"/>
+  <rect class="box ok" x="644" y="40" width="48" height="36"/>
+  <rect class="box ok" x="692" y="40" width="48" height="36"/>
+  <rect class="box ok" x="740" y="40" width="48" height="36"/>
+
+  <text class="mid" x="44"  y="63">a[0]</text>
+  <text class="mid" x="92"  y="63">a[1]</text>
+  <text class="mid" x="140" y="63">a[2]</text>
+  <text class="mid" x="188" y="63">a[3]</text>
+  <text class="mid" x="236" y="63">a[4]</text>
+  <text class="mid" x="284" y="63">a[5]</text>
+  <text class="mid" x="332" y="63">a[6]</text>
+  <text class="mid" x="380" y="63">a[7]</text>
+  <text class="mid" x="428" y="63">a[8]</text>
+  <text class="mid" x="476" y="63">a[9]</text>
+  <text class="mid" x="524" y="63">a[10]</text>
+  <text class="mid" x="572" y="63">a[11]</text>
+  <text class="mid" x="620" y="63">a[12]</text>
+  <text class="mid" x="668" y="63">a[13]</text>
+  <text class="mid" x="716" y="63">a[14]</text>
+  <text class="mid" x="764" y="63">a[15]</text>
+
+  <!-- cache line brackets -->
+  <path class="bracket" d="M22,82 v8 H402 v-8"/>
+  <text class="sub mid" x="212" y="106">cache line 1 (64 bytes): one fetch, eight elements</text>
+  <path class="bracket" d="M406,82 v8 H786 v-8"/>
+  <text class="sub mid" x="596" y="106">cache line 2: prefetched before you ask for it</text>
+
+  <!-- ── Linked list ─────────────────────────────── -->
+  <text class="head" x="20" y="140">LINKED LIST: NODES SCATTERED ACROSS THE HEAP</text>
+
+  <!-- the heap, one slot per 8 bytes -->
+  <rect class="slot" x="20"  y="180" width="48" height="36"/>
+  <rect class="slot" x="68"  y="180" width="48" height="36"/>
+  <rect class="slot" x="116" y="180" width="48" height="36"/>
+  <rect class="slot" x="164" y="180" width="48" height="36"/>
+  <rect class="slot" x="212" y="180" width="48" height="36"/>
+  <rect class="slot" x="260" y="180" width="48" height="36"/>
+  <rect class="slot" x="308" y="180" width="48" height="36"/>
+  <rect class="slot" x="356" y="180" width="48" height="36"/>
+  <rect class="slot" x="404" y="180" width="48" height="36"/>
+  <rect class="slot" x="452" y="180" width="48" height="36"/>
+  <rect class="slot" x="500" y="180" width="48" height="36"/>
+  <rect class="slot" x="548" y="180" width="48" height="36"/>
+  <rect class="slot" x="596" y="180" width="48" height="36"/>
+  <rect class="slot" x="644" y="180" width="48" height="36"/>
+  <rect class="slot" x="692" y="180" width="48" height="36"/>
+  <rect class="slot" x="740" y="180" width="48" height="36"/>
+
+  <rect class="box bad" x="68"  y="180" width="48" height="36"/>
+  <rect class="box bad" x="548" y="180" width="48" height="36"/>
+  <rect class="box bad" x="212" y="180" width="48" height="36"/>
+  <rect class="box bad" x="692" y="180" width="48" height="36"/>
+  <rect class="box bad" x="356" y="180" width="48" height="36"/>
+
+  <text class="mid" x="92"  y="203">n0</text>
+  <text class="mid" x="572" y="203">n1</text>
+  <text class="mid" x="236" y="203">n2</text>
+  <text class="mid" x="716" y="203">n3</text>
+  <text class="mid" x="380" y="203">n4</text>
+
+  <!-- next pointers -->
+  <path class="link" d="M92,180 Q332,140 572,180" marker-end="url(#mem-loc-arrow)"/>
+  <path class="link" d="M572,216 Q404,276 236,216" marker-end="url(#mem-loc-arrow)"/>
+  <path class="link" d="M236,180 Q476,140 716,180" marker-end="url(#mem-loc-arrow)"/>
+  <path class="link" d="M716,216 Q548,286 380,216" marker-end="url(#mem-loc-arrow)"/>
+
+  <text class="sub mid" x="404" y="292">every hop can land on a different cache line, and the prefetcher can't guess where the next node is</text>
+</svg>

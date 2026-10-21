@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 245" role="img" aria-labelledby="false-sharing-title false-sharing-desc">
+  <title id="false-sharing-title">False sharing, with and without padding</title>
+  <desc id="false-sharing-desc">Without padding, a queue's head and tail sit in the same 64-byte cache line. The producer on core 0 writes the tail and the consumer on core 1 writes the head, so every write invalidates the other core's copy and the line bounces between them. With padding, head and tail each sit in their own cache line, surrounded by unused bytes, so each core keeps its line in cache and they stop interfering.</desc>
+
+  <defs>
+    <marker id="false-sharing-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path class="arrowhead" d="M0,0 L10,5 L0,10 z"/>
+    </marker>
+  </defs>
+
+  <!-- ── Without padding ─────────────────────────── -->
+  <rect class="group" x="10" y="10" width="415" height="225" rx="8"/>
+  <text class="head" x="22" y="27">WITHOUT PADDING: ONE SHARED LINE</text>
+
+  <!-- Core 0 -->
+  <rect class="core" x="22" y="40" width="190" height="110" rx="6"/>
+  <text class="title mid" x="117" y="60">Core 0 · producer</text>
+  <text class="sub mid" x="117" y="80">L1: one cache line</text>
+  <rect class="slot" x="32"  y="88" width="40" height="30"/>
+  <rect class="box bad" x="72" y="88" width="40" height="30"/>
+  <rect class="slot" x="112" y="88" width="90" height="30"/>
+  <text class="mid" x="52"  y="108">head</text>
+  <text class="mid" x="92"  y="108">tail</text>
+  <text class="sub mid" x="157" y="107">…</text>
+  <text class="sub mid" x="117" y="138">writes tail</text>
+
+  <!-- Core 1 -->
+  <rect class="core" x="223" y="40" width="190" height="110" rx="6"/>
+  <text class="title mid" x="318" y="60">Core 1 · consumer</text>
+  <text class="sub mid" x="318" y="80">L1: the same cache line</text>
+  <rect class="box bad" x="233" y="88" width="40" height="30"/>
+  <rect class="slot" x="273" y="88" width="40" height="30"/>
+  <rect class="slot" x="313" y="88" width="90" height="30"/>
+  <text class="mid" x="253" y="108">head</text>
+  <text class="mid" x="293" y="108">tail</text>
+  <text class="sub mid" x="358" y="107">…</text>
+  <text class="sub mid" x="318" y="138">writes head</text>
+
+  <!-- the line bouncing between cores -->
+  <path class="link" d="M117,153 Q217.5,201 318,153" marker-start="url(#false-sharing-arrow)" marker-end="url(#false-sharing-arrow)"/>
+  <text class="sub mid" x="217.5" y="204">every write invalidates the other core's copy,</text>
+  <text class="sub mid" x="217.5" y="219">so the line bounces back and forth</text>
+
+  <!-- ── With padding ────────────────────────────── -->
+  <rect class="group" x="435" y="10" width="415" height="225" rx="8"/>
+  <text class="head" x="447" y="27">WITH PADDING: ONE LINE EACH</text>
+
+  <!-- Core 0 -->
+  <rect class="core" x="447" y="40" width="190" height="110" rx="6"/>
+  <text class="title mid" x="542" y="60">Core 0 · producer</text>
+  <text class="sub mid" x="542" y="80">L1: tail's own line</text>
+  <rect class="slot" x="457" y="88" width="60" height="30"/>
+  <rect class="box ok" x="517" y="88" width="50" height="30"/>
+  <rect class="slot" x="567" y="88" width="60" height="30"/>
+  <text class="sub mid" x="487" y="107">padding</text>
+  <text class="mid" x="542" y="108">tail</text>
+  <text class="sub mid" x="597" y="107">padding</text>
+  <text class="sub mid" x="542" y="138">writes tail</text>
+
+  <!-- Core 1 -->
+  <rect class="core" x="648" y="40" width="190" height="110" rx="6"/>
+  <text class="title mid" x="743" y="60">Core 1 · consumer</text>
+  <text class="sub mid" x="743" y="80">L1: head's own line</text>
+  <rect class="slot" x="658" y="88" width="60" height="30"/>
+  <rect class="box ok" x="718" y="88" width="50" height="30"/>
+  <rect class="slot" x="768" y="88" width="60" height="30"/>
+  <text class="sub mid" x="688" y="107">padding</text>
+  <text class="mid" x="743" y="108">head</text>
+  <text class="sub mid" x="798" y="107">padding</text>
+  <text class="sub mid" x="743" y="138">writes head</text>
+
+  <text class="sub mid" x="642.5" y="204">different lines: each core keeps its own line in cache,</text>
+  <text class="sub mid" x="642.5" y="219">so there's nothing to invalidate</text>
+</svg>
