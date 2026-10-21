@@ -474,10 +474,148 @@ Built from queues, this takes six of them, each with the locks, contention and g
 [^consumers-write]: Consumers can even write to events. LMAX's unmarshaller stores the decoded message back into the event for the business logic processor to use. Fowler's rule is that "each writable field can only have one parallel consumer that's allowed to write to it": the [Single Writer Principle](#the-single-writer-principle), applied to fields.
 
 ## Code Example
+I've put a small, runnable example on GitHub: [lmax_disruptor](https://github.com/ArjunNarayanasamy/lmax_disruptor). It recreates LMAX's input stage from this post. A receiver publishes orders, the journaler, replicator and unmarshaller handle them in parallel, and the business logic processor runs after all three. It uses the same 16-slot ring as the diagrams, so the sequence and slot numbers in its output line up with them.
+
+It needs Java 17 and Maven, and runs with one command:
+
+```
+mvn -q compile exec:java
+```
+
+### The Wiring
+
+The whole setup fits in a few lines ([App.java](https://github.com/ArjunNarayanasamy/lmax_disruptor/blob/817d78475da2c61b5326e32f65828d188a30b4c5/src/main/java/dev/ajlog/disruptor/App.java#L120-L140), trimmed slightly here):
+
+```java
+Disruptor<OrderEvent> disruptor = new Disruptor<>(
+    OrderEvent::new,                // pre-allocates every event up front
+    16,                             // ring size: a power of two
+    DaemonThreadFactory.INSTANCE,
+    ProducerType.SINGLE,            // one producer, so claiming needs no CAS
+    waitStrategy);                  // blocking by default, or --wait=busy etc.
+
+disruptor.handleEventsWith(journal, replication, unmarshal)
+         .then(businessLogic);
+
+RingBuffer<OrderEvent> ringBuffer = disruptor.start();
+```
+
+Almost every argument is a decision from an earlier section: the event factory from [Ring Buffer](#ring-buffer), the single producer from [Sequencer](#sequencer), the [wait strategy](#wait-strategies), and the [dependency graph](#dependency-graphs) in a single line.
+
+### What the Output Shows
+
+Every handler logs what it does, so the output shows the ideas from this post as they happen. The excerpts below are from real runs, with lines removed only where `...` appears.
+
+**Events are reused, lap after lap.** Sequences 5, 21 and 37 all map to slot 5, and all three use the same event object:
+
+```
+slot 5 reuse : [seq 5 -> obj=@73b83403, seq 21 -> obj=@73b83403, seq 37 -> obj=@73b83403] ... all 3 uses were the same object: true
+```
+
+**Consumers batch.** The journaler reached the end of a batch of 7 and flushed once for all of them, and the business logic processor picked up 7 events in one go:
+
+```
+[journaler] JOURNAL   seq=7   slot=7  endOfBatch=true
+[journaler] JOURNAL   flush: 7 event(s) written in one flush
+...
+[business] BUSINESS  onBatchStart batchSize=7 queueDepth=7
+```
+
+Over the whole run, 40 events went to the journal in 20 flushes.
+
+**A full ring makes the producer wait.** With `--slow-consumer`, the business logic processor sleeps 50 ms per event, and the ring soon fills up:
+
+```
+[business] BUSINESS  onBatchStart batchSize=15 queueDepth=15
+...
+[receiver] RECEIVER  remainingCapacity=0 -> ring full, producer must wait for business logic to free a slot
+...
+[receiver] RECEIVER  waited 946.8 ms for a free slot
+[receiver] RECEIVER  remainingCapacity=14
+```
+
+Notice that the producer waited around 950 ms, not 50 ms. The business logic processor took a batch of 15 events, and an event processor only moves its Sequence forward at the *end* of a batch. So no slot was freed until all 15 events were done, about 15 × 50 ms later, and then 14 slots became free at once. Batching makes consumers efficient, but it also means a slow consumer frees space in large, late steps.
+
+**The dependency graph holds.** The business logic handler throws if an event reaches it before the other three have finished with it. Across 80 runs of 10,000 events, 20 for each wait strategy, that never happened once.
+
+The [README](https://github.com/ArjunNarayanasamy/lmax_disruptor#matching-the-output-to-the-post) has the full list of what to look for, longer output, and the other flags, including `--gotcha`, which shows a [held reference to an event](#dont-hold-on-to-events) turning into a different order one lap later.
 
 ## Performance
+The Disruptor paper[^disruptor-paper] compares it against `ArrayBlockingQueue` across five shapes of consumer graph:
+
+- **Unicast** (1P–1C): one producer, one consumer.
+- **Pipeline** (1P–3C): three consumers in a chain.
+- **Sequencer** (3P–1C): three producers, one consumer.
+- **Multicast** (1P–3C): three consumers, each seeing every event, in parallel.
+- **Diamond** (1P–3C): two consumers in parallel, then a third after both. It's the shape of LMAX's [input stage](#dependency-graphs), with two parallel stages instead of three.
+
+### Throughput
+
+The paper's most recent results, run on an AMD EPYC 9374F with OpenJDK 11, include Disruptor 4, the version used in the [code example](#code-example):
+
+| Test | ArrayBlockingQueue (ops/s) | Disruptor 4 (ops/s) | Speed-up |
+|---|---:|---:|---:|
+| Unicast: 1P–1C | 20,895,148 | 160,359,204 | ~7.7× |
+| Pipeline: 1P–3C | 5,216,647 | 101,317,122 | ~19× |
+| Sequencer: 3P–1C | 18,791,340 | 29,726,516 | ~1.6× |
+| Multicast: 1P–3C | 2,355,379 | 70,018,204 | ~30× |
+| Diamond: 1P–3C | 3,433,665 | 63,123,343 | ~18× |
+
+The original 2011 results, on much older Intel hardware and Java 6, show the same pattern. For example, unicast ran at about 26 million ops/s against 5.3 million for the queue.
+
+The interesting part isn't the size of the numbers. It's **where** the gains are:
+
+- **The biggest gains are in multicast, pipeline and diamond**, 18–30×. These are the shapes where a queue-based design needs several queues, and the Disruptor still needs only one ring buffer.
+- **The smallest gain is with three producers**, only about 1.6×. On the same machine, the older Disruptor 3 was actually *slower* than `ArrayBlockingQueue` in this test (16.0 million ops/s against 18.8 million). Several producers have to agree on who claims each slot, and that's exactly the cost the [Single Writer Principle](#the-single-writer-principle) avoids.
+
+### Latency
+
+Throughput is only half the story. For a trading system, what matters just as much is how *consistent* the latency is. The paper measured latency through a three-stage pipeline:
+
+| | ArrayBlockingQueue | Disruptor |
+|---|---:|---:|
+| Mean | 32,757 ns | 52 ns |
+| 99% under | 2,097,152 ns | 128 ns |
+| 99.99% under | 4,194,304 ns | 8,192 ns |
+
+The mean is around 600× better, but look at the 99th percentile. One message in a hundred took more than **2 milliseconds** through the queues, against **128 nanoseconds** through the Disruptor. That's the "far more predictable" from the start of this post. A system built on queues is fast *on average* and occasionally very slow, and in a trading system, the occasional very slow message is the one that costs money.
+
+### A Word of Caution
+
+These are the authors' own benchmarks. The latency figures come from 2011 hardware and JVMs, without pinning threads to cores, and `ArrayBlockingQueue` is a lock-based baseline, not the fastest queue available today. Lock-free queues, such as those in the JCTools library, are a much tougher comparison. Treat these numbers as a picture of *why* the design is fast, not as a promise for your workload, and measure your own.
 
 ## When to Use It (and When Not To)
+The Disruptor solves a specific problem very well: passing data between threads, inside one process, as fast and as predictably as possible. Outside that problem, it's often more machinery than you need.
+
+### A Good Fit
+
+- **Very fast handoff between threads,** where both latency and *consistent* latency matter. Trading engines, market data feeds and order gateways are the classic cases.
+- **Several stages working on the same events.** Journaling, replicating and processing the same message is where the [benchmarks](#throughput) show the biggest gains, because every stage reads one ring buffer instead of its own queue.
+- **A single writer at the core.** It suits designs like LMAX's, where one thread owns the business logic and everything else feeds it or reads from it.
+- **Bursty traffic.** [Batching](#sequence-barrier) lets consumers catch up after a spike, instead of slowing down under it.
+
+Log4j 2's async loggers are a good everyday example: application threads hand log events to a background thread through a Disruptor, so logging doesn't slow down the code that logs.
+
+### Not a Good Fit
+
+- **Between processes or machines.** The Disruptor only works inside one JVM. Across processes or a network, you need a messaging system, such as Kafka, or Aeron (also from Martin Thompson) for low latency.
+- **Low message rates.** At thousands of messages per second rather than millions, a plain `BlockingQueue` is simpler and more than fast enough.
+- **Work queues.** If each task should go to just *one* of several workers, the Disruptor is the wrong shape: every handler sees every event. Version 4 removed its worker pool, so you'd have to split the work yourself, for example by having each handler take only the sequences where `sequence % n` matches its number.
+- **Many producers and little else.** With three producers and one consumer, the gain over a queue was [only about 1.6×](#throughput).
+- **Handlers that block on slow I/O.** A consumer that stalls holds up every consumer behind it in the graph and, once the ring fills, the producer too. The [`--slow-consumer` run](#what-the-output-shows) shows this happening.
+- **No spare cores.** The lowest-latency [wait strategies](#wait-strategies) keep a core busy all the time. On a shared machine, or in a container with a CPU limit, that core isn't really yours.
+
+### A Quick Checklist
+
+The Disruptor is worth considering if you can answer yes to most of these:
+
+1. Is the data passed between threads in the **same process**?
+2. Are you handling **hundreds of thousands to millions** of events per second?
+3. Do **latency spikes** actually cost you something?
+4. Do **several stages** need to see every event?
+5. Can you arrange for a **single producer**, or close to it?
+
+If not, start with a queue. You can always switch later, once you've measured that the queue is the bottleneck.
 
 ## Trade-offs
 

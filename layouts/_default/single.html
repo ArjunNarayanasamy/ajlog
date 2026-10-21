@@ -12,7 +12,9 @@
     </div>
   </header>
   <div class="content">
-    {{ .Content }}
+    {{- /* Give the footnotes Hugo appends a heading, styled like the post's own sections. */}}
+    {{ replaceRE `<div class="footnotes" role="doc-endnotes">\s*<hr>` `<h2 id="footnotes">Footnotes</h2>
+<div class="footnotes" role="doc-endnotes">` .Content | safeHTML }}
   </div>
 </article>
 {{ if .Page.Store.Get "hasMermaid" }}
