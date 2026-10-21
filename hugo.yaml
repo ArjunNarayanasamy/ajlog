@@ -8,6 +8,9 @@ params:
   tagline: "“What I cannot create, I do not understand.”"
   taglineAuthor: "Richard Feynman"
   about: "Software engineer working on distributed systems. I write here to understand how systems really work, and why they're built the way they are."
+  # Photo for the "About the author" card, e.g. "/images/author.jpg" (file in static/images/).
+  # Leave empty to show an initials placeholder.
+  avatar: ""
   email: "aj.nsmy@gmail.com"
   linkedin: "https://www.linkedin.com/in/arjun-narayanasamy-aaa72976/"
 

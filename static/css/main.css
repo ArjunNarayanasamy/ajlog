@@ -191,6 +191,53 @@ main.home-main {
 }
 .about-link svg { flex-shrink: 0; opacity: 0.75; }
 
+/* ── Author card (end of every page except home) ─ */
+.author-card {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+  max-width: 720px;
+  margin: 4rem 0 2rem;
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+.author-photo {
+  flex-shrink: 0;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.author-photo-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--border);
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.author-body { min-width: 0; }
+.author-heading {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 0.4rem;
+}
+.author-name { font-weight: 700; margin: 0 0 0.5rem; }
+.author-card .about-bio { margin-bottom: 1rem; }
+
+@media (max-width: 600px) {
+  .author-card { flex-direction: column; align-items: center; text-align: center; }
+  .author-card .about-links { align-items: center; }
+}
+
 /* ── Reads sidebar card ───────────────────────── */
 .reads-sidebar-card {
   background: var(--code-bg);

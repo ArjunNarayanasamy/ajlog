@@ -7,6 +7,7 @@
   {{ partial "header.html" . }}
   <main{{ if .IsHome }} class="home-main"{{ end }}>
     {{ block "main" . }}{{ end }}
+    {{ if not .IsHome }}{{ partial "author-card.html" . }}{{ end }}
   </main>
   {{ partial "footer.html" . }}
 </body>

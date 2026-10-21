@@ -1,0 +1,18 @@
+{{- /* "About the author" card shown at the end of every page except home. Set params.avatar to a photo path to replace the initials placeholder. */ -}}
+<aside class="author-card" aria-labelledby="author-card-heading">
+  {{ with .Site.Params.avatar }}
+  <img src="{{ . | relURL }}" alt="{{ $.Site.Title }}" class="author-photo" loading="lazy">
+  {{ else }}
+  <div class="author-photo author-photo-placeholder" aria-hidden="true">
+    {{- range split .Site.Title " " }}{{ substr . 0 1 }}{{ end -}}
+  </div>
+  {{ end }}
+  <div class="author-body">
+    <h2 id="author-card-heading" class="author-heading">About the author</h2>
+    <p class="author-name">{{ .Site.Title }}</p>
+    {{ with .Site.Params.about }}
+    <p class="about-bio">{{ . }}</p>
+    {{ end }}
+    {{ partial "about-links.html" . }}
+  </div>
+</aside>
