@@ -618,6 +618,38 @@ The Disruptor is worth considering if you can answer yes to most of these:
 If not, start with a queue. You can always switch later, once you've measured that the queue is the bottleneck.
 
 ## Trade-offs
+The Disruptor's speed isn't free. These are the costs you accept when you use it.
+
+**Memory is paid up front.** Every slot and every event is allocated at startup, and the ring can never grow. You have to size it for your worst burst, roughly *peak arrival rate × longest consumer pause*, and pay for that memory all the time.
+
+**Low latency burns CPU.** The fastest [wait strategies](#wait-strategies) keep a core at 100% even when nothing is happening, and every handler gets its own thread. Four busy-spinning consumers means four cores that do nothing else.
+
+**The slowest consumer sets the pace.** Stages aren't isolated. One slow consumer holds back everything after it and, once the ring fills, the producer too. Batching makes this worse in one way: slots are freed only at the end of a batch, so a slow consumer releases space in large, late steps. That's why the producer in the [code example](#what-the-output-shows) waited around 950 ms, not 50 ms.
+
+**A full ring means waiting or losing data.** A bounded buffer can't absorb everything, so you decide what happens when it's full. `next()` blocks the producer, which pushes back on whoever is sending. `tryNext()` and `tryPublishEvent()` fail immediately instead, so you can reject or drop the event. In a trading system, rejecting an order quickly is usually better than accepting it late.
+
+**Reused events need discipline.** Never keep a reference to an event, clear every field each time you reuse one, and keep to one writer per field. Get any of these wrong and nothing throws. You just quietly read the wrong data.
+
+**Exceptions need a plan.** By default, an exception in a handler is logged and re-thrown, which stops that consumer. Its Sequence stops moving, so the stages after it stop too and, once the ring fills, so does the producer. Set your own exception handler, as the code example does, and decide what a failure should mean.
+
+**There are more moving parts.** Sequences, barriers, wait strategies and gating are a lot more to understand than `put()` and `take()`. With no locks to inspect and work spread over several threads, it's also harder to debug.
+
+**Mechanical sympathy is tied to the hardware.** The padding assumes 64-byte cache lines, while Apple's M-series chips use 128. The field-ordering trick relies on how HotSpot lays out objects. The design is tuned for today's CPUs and JVMs, and its advantages can shift as they change.
+
+| You get | You pay |
+|---|---|
+| No garbage per message | Memory allocated up front, at a fixed size |
+| Nanosecond wake-ups | Cores kept busy all the time |
+| Batching under load | Slots freed late, in big steps |
+| Bounded memory | Choosing between waiting and losing data |
+| No locks, no copying | Discipline about reused, mutable events |
+
+## Wrapping Up
+A queue is the obvious way to pass data between threads, and it turns out to be slow for reasons that have little to do with the idea of a queue. Locks need the kernel, shared head and tail fields fight over cache lines, and every message leaves garbage behind.
+
+The Disruptor keeps the idea and rebuilds it around the hardware. A pre-allocated ring buffer replaces linked nodes. Padded sequences, each with a single writer, replace locks. Barriers let consumers wait on each other without any queues in between, so every stage of a pipeline reads one shared buffer. None of these ideas is complicated on its own. The speed comes from applying all of them together.
+
+Even if you never use the Disruptor itself, the way of thinking behind it is worth keeping: find out what the hardware is actually doing, and design so that it doesn't have to fight you.
 
 {{< source-disclaimer >}}
 
@@ -630,3 +662,10 @@ If not, start with a queue. You can always switch later, once you've measured th
 5. Martin Thompson, [False Sharing](https://mechanical-sympathy.blogspot.com/2011/07/false-sharing.html), Mechanical Sympathy, 2011
 6. Martin Thompson, [Mechanical Sympathy](https://mechanical-sympathy.blogspot.com/) (blog)
 7. Martin Thompson, [Single Writer Principle](https://mechanical-sympathy.blogspot.com/2011/09/single-writer-principle.html), Mechanical Sympathy, 2011
+
+### Talks
+
+If you'd like to dig deeper, these talks are a good next step:
+
+- Trisha Gee & Mike Barker, [Understanding the Disruptor, a Beginner's Guide to Hardcore Concurrency](https://www.youtube.com/watch?v=DCdGlxBbKU4&t=1032s), JAX Conference. Both are co-authors of the Disruptor paper.
+- [Concurrent Programming with the Disruptor](https://www.youtube.com/watch?v=o_nXgoTxBsQ&list=PLbrWUv-2WQG3kxOoJPnIqXqLZcrj1-mj1), Linux Conference
