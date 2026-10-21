@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 540" role="img" aria-labelledby="ring-title ring-desc">
+  <title id="ring-title">LMAX's input ring buffer, with one producer and four consumers</title>
+  <desc id="ring-desc">A ring buffer of 16 slots, where each sequence goes into slot sequence AND 15. The receiver, the producer, has published up to sequence 37. Four consumers read the same ring: the unmarshaller is at 35, the journaler at 34, the replicator at 33, and the business logic processor, which waits for the other three, is furthest behind at 31. Sequences 32 to 37 are published but not yet read by every consumer. Sequences 22 to 31 have been read by everyone, so their slots are free to reuse. The receiver's next claim is 38, and it can claim up to 47, one full lap ahead of the slowest consumer.</desc>
+
+  <defs>
+    <marker id="ring-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path class="arrowhead" d="M0,0 L10,5 L0,10 z"/>
+    </marker>
+  </defs>
+
+  <!-- ── The ring: slot = sequence & 15 ───────────── -->
+  <path class="box" d="M266.8,88.3 A170,170 0 0 1 333.2,88.3 L322.4,142.2 A115,115 0 0 0 277.6,142.2 Z"/>
+  <path class="box" d="M333.2,88.3 A170,170 0 0 1 394.4,113.7 L363.9,159.4 A115,115 0 0 0 322.4,142.2 Z"/>
+  <path class="box" d="M394.4,113.7 A170,170 0 0 1 441.3,160.6 L395.6,191.1 A115,115 0 0 0 363.9,159.4 Z"/>
+  <path class="box" d="M441.3,160.6 A170,170 0 0 1 466.7,221.8 L412.8,232.6 A115,115 0 0 0 395.6,191.1 Z"/>
+  <path class="box" d="M466.7,221.8 A170,170 0 0 1 466.7,288.2 L412.8,277.4 A115,115 0 0 0 412.8,232.6 Z"/>
+  <path class="box" d="M466.7,288.2 A170,170 0 0 1 441.3,349.4 L395.6,318.9 A115,115 0 0 0 412.8,277.4 Z"/>
+  <path class="box ok" d="M441.3,349.4 A170,170 0 0 1 394.4,396.3 L363.9,350.6 A115,115 0 0 0 395.6,318.9 Z"/>
+  <path class="box ok" d="M394.4,396.3 A170,170 0 0 1 333.2,421.7 L322.4,367.8 A115,115 0 0 0 363.9,350.6 Z"/>
+  <path class="box ok" d="M333.2,421.7 A170,170 0 0 1 266.8,421.7 L277.6,367.8 A115,115 0 0 0 322.4,367.8 Z"/>
+  <path class="box ok" d="M266.8,421.7 A170,170 0 0 1 205.6,396.3 L236.1,350.6 A115,115 0 0 0 277.6,367.8 Z"/>
+  <path class="box ok" d="M205.6,396.3 A170,170 0 0 1 158.7,349.4 L204.4,318.9 A115,115 0 0 0 236.1,350.6 Z"/>
+  <path class="box ok" d="M158.7,349.4 A170,170 0 0 1 133.3,288.2 L187.2,277.4 A115,115 0 0 0 204.4,318.9 Z"/>
+  <path class="box ok" d="M133.3,288.2 A170,170 0 0 1 133.3,221.8 L187.2,232.6 A115,115 0 0 0 187.2,277.4 Z"/>
+  <path class="box ok" d="M133.3,221.8 A170,170 0 0 1 158.7,160.6 L204.4,191.1 A115,115 0 0 0 187.2,232.6 Z"/>
+  <path class="box ok" d="M158.7,160.6 A170,170 0 0 1 205.6,113.7 L236.1,159.4 A115,115 0 0 0 204.4,191.1 Z"/>
+  <path class="box ok" d="M205.6,113.7 A170,170 0 0 1 266.8,88.3 L277.6,142.2 A115,115 0 0 0 236.1,159.4 Z"/>
+
+  <!-- sequence held in each slot, and the slot index inside the ring -->
+  <text class="title mid" x="300.0" y="117.0">32</text><text class="sub mid" x="300.0" y="159.0">0</text>
+  <text class="title mid" x="354.5" y="127.8">33</text><text class="sub mid" x="338.3" y="166.6">1</text>
+  <text class="title mid" x="400.8" y="158.7">34</text><text class="sub mid" x="370.7" y="188.3">2</text>
+  <text class="title mid" x="431.7" y="205.0">35</text><text class="sub mid" x="392.4" y="220.7">3</text>
+  <text class="title mid" x="442.5" y="259.5">36</text><text class="sub mid" x="400.0" y="259.0">4</text>
+  <text class="title mid" x="431.7" y="314.0">37</text><text class="sub mid" x="392.4" y="297.3">5</text>
+  <text class="title mid" x="400.8" y="360.3">22</text><text class="sub mid" x="370.7" y="329.7">6</text>
+  <text class="title mid" x="354.5" y="391.2">23</text><text class="sub mid" x="338.3" y="351.4">7</text>
+  <text class="title mid" x="300.0" y="402.0">24</text><text class="sub mid" x="300.0" y="359.0">8</text>
+  <text class="title mid" x="245.5" y="391.2">25</text><text class="sub mid" x="261.7" y="351.4">9</text>
+  <text class="title mid" x="199.2" y="360.3">26</text><text class="sub mid" x="229.3" y="329.7">10</text>
+  <text class="title mid" x="168.3" y="314.0">27</text><text class="sub mid" x="207.6" y="297.3">11</text>
+  <text class="title mid" x="157.5" y="259.5">28</text><text class="sub mid" x="200.0" y="259.0">12</text>
+  <text class="title mid" x="168.3" y="205.0">29</text><text class="sub mid" x="207.6" y="220.7">13</text>
+  <text class="title mid" x="199.2" y="158.7">30</text><text class="sub mid" x="229.3" y="188.3">14</text>
+  <text class="title mid" x="245.5" y="127.8">31</text><text class="sub mid" x="261.7" y="166.6">15</text>
+
+  <!-- centre: direction of travel -->
+  <path class="link" d="M300,197 A58,58 0 0 1 358,255" marker-end="url(#ring-arrow)"/>
+  <text class="sub mid" x="300" y="251">size 16</text>
+  <text class="sub mid" x="300" y="267">slot = seq &amp; 15</text>
+
+  <!-- ── Producer and consumers ───────────────────── -->
+  <line class="link" x1="490.3" y1="333.8" x2="462.6" y2="322.4" marker-end="url(#ring-arrow)"/>
+  <text class="value" x="497.7" y="346.9">Receiver (producer): 37</text>
+  <line class="link" x1="490.3" y1="176.2" x2="462.6" y2="187.6" marker-end="url(#ring-arrow)"/>
+  <text class="title" x="497.7" y="175.1">Unmarshaller: 35</text>
+  <line class="link" x1="445.7" y1="109.3" x2="424.5" y2="130.5" marker-end="url(#ring-arrow)"/>
+  <text class="title" x="451.3" y="105.7">Journaler: 34</text>
+  <line class="link" x1="378.8" y1="64.7" x2="367.4" y2="92.4" marker-end="url(#ring-arrow)"/>
+  <text class="title" x="381.9" y="59.3">Replicator: 33</text>
+  <line class="link" x1="221.2" y1="64.7" x2="232.6" y2="92.4" marker-end="url(#ring-arrow)"/>
+  <text class="title end" x="218.1" y="59.3">Business Logic Processor: 31</text>
+  <line class="wire" x1="445.7" y1="400.7" x2="424.5" y2="379.5" marker-end="url(#ring-arrow)"/>
+  <text class="sub" x="451.3" y="416.3">next claim: 38</text>
+
+  <!-- ── Legend and notes ────────────────────────── -->
+  <rect class="box" x="40" y="468" width="22" height="16" rx="3"/>
+  <text x="72" y="481">published, not yet read by every consumer (32–37)</text>
+  <rect class="box ok" x="40" y="496" width="22" height="16" rx="3"/>
+  <text x="72" y="509">read by every consumer, free to reuse (22–31)</text>
+
+  <text class="sub" x="530" y="474">the business logic processor waits for the other three,</text>
+  <text class="sub" x="530" y="489">so it is always the furthest behind</text>
+  <text class="sub" x="530" y="511">the receiver can claim up to 47 (31 + 16):</text>
+  <text class="sub" x="530" y="526">one full lap ahead of the slowest consumer</text>
+</svg>

@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 355" role="img" aria-labelledby="dep-title dep-desc">
+  <title id="dep-title">LMAX's input stage built with queues, and with the Disruptor</title>
+  <desc id="dep-desc">With queues, the receiver puts each message on three queues, one each for the journaler, replicator and unmarshaller. Each of those puts its result on another queue, and the business logic processor has to match up the same message across all three: six queues in total. With the Disruptor, the receiver writes each event once into a single ring buffer. The journaler, replicator and unmarshaller all read the same slots in parallel, and the business logic processor reads them too, after watching the three upstream consumers' sequences. There are no queues, and events never move.</desc>
+
+  <defs>
+    <marker id="dep-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path class="arrowhead" d="M0,0 L10,5 L0,10 z"/>
+    </marker>
+  </defs>
+
+  <!-- ══ With queues ═══════════════════════════════ -->
+  <rect class="group" x="10" y="10" width="410" height="335" rx="8"/>
+  <text class="head" x="22" y="27">WITH QUEUES</text>
+
+  <rect class="box" x="155" y="40" width="120" height="36" rx="4"/>
+  <text class="title mid" x="215" y="63">Receiver</text>
+
+  <!-- first row of queues -->
+  <line class="link" x1="200" y1="77" x2="92" y2="108" marker-end="url(#dep-arrow)"/>
+  <line class="link" x1="215" y1="77" x2="215" y2="108" marker-end="url(#dep-arrow)"/>
+  <line class="link" x1="230" y1="77" x2="338" y2="108" marker-end="url(#dep-arrow)"/>
+  <rect class="box bad" x="50"  y="110" width="70" height="20" rx="3"/>
+  <rect class="box bad" x="180" y="110" width="70" height="20" rx="3"/>
+  <rect class="box bad" x="310" y="110" width="70" height="20" rx="3"/>
+  <path class="bracket" d="M67,110 v20 M85,110 v20 M103,110 v20 M197,110 v20 M215,110 v20 M233,110 v20 M327,110 v20 M345,110 v20 M363,110 v20"/>
+
+  <line class="link" x1="85"  y1="131" x2="85"  y2="158" marker-end="url(#dep-arrow)"/>
+  <line class="link" x1="215" y1="131" x2="215" y2="158" marker-end="url(#dep-arrow)"/>
+  <line class="link" x1="345" y1="131" x2="345" y2="158" marker-end="url(#dep-arrow)"/>
+
+  <rect class="box" x="30"  y="160" width="110" height="36" rx="4"/>
+  <rect class="box" x="160" y="160" width="110" height="36" rx="4"/>
+  <rect class="box" x="290" y="160" width="110" height="36" rx="4"/>
+  <text class="mid" x="85"  y="183">Journaler</text>
+  <text class="mid" x="215" y="183">Replicator</text>
+  <text class="mid" x="345" y="183">Unmarshaller</text>
+
+  <!-- second row of queues -->
+  <line class="link" x1="85"  y1="197" x2="85"  y2="224" marker-end="url(#dep-arrow)"/>
+  <line class="link" x1="215" y1="197" x2="215" y2="224" marker-end="url(#dep-arrow)"/>
+  <line class="link" x1="345" y1="197" x2="345" y2="224" marker-end="url(#dep-arrow)"/>
+  <rect class="box bad" x="50"  y="226" width="70" height="20" rx="3"/>
+  <rect class="box bad" x="180" y="226" width="70" height="20" rx="3"/>
+  <rect class="box bad" x="310" y="226" width="70" height="20" rx="3"/>
+  <path class="bracket" d="M67,226 v20 M85,226 v20 M103,226 v20 M197,226 v20 M215,226 v20 M233,226 v20 M327,226 v20 M345,226 v20 M363,226 v20"/>
+
+  <line class="link" x1="92"  y1="247" x2="160" y2="274" marker-end="url(#dep-arrow)"/>
+  <line class="link" x1="215" y1="247" x2="215" y2="274" marker-end="url(#dep-arrow)"/>
+  <line class="link" x1="338" y1="247" x2="270" y2="274" marker-end="url(#dep-arrow)"/>
+
+  <rect class="box" x="115" y="276" width="200" height="36" rx="4"/>
+  <text class="title mid" x="215" y="299">Business Logic Processor</text>
+
+  <text class="sub mid" x="215" y="333">6 queues, and the last stage must match up each message from three</text>
+
+  <!-- ══ With the Disruptor ════════════════════════ -->
+  <rect class="group" x="440" y="10" width="410" height="335" rx="8"/>
+  <text class="head" x="452" y="27">WITH THE DISRUPTOR</text>
+
+  <rect class="box" x="585" y="40" width="120" height="36" rx="4"/>
+  <text class="title mid" x="645" y="63">Receiver</text>
+  <line class="link" x1="645" y1="77" x2="645" y2="98" marker-end="url(#dep-arrow)"/>
+
+  <!-- the one ring buffer -->
+  <rect class="box ok" x="480" y="100" width="330" height="56" rx="4"/>
+  <text class="title mid" x="645" y="118">Ring Buffer</text>
+  <rect class="slot" x="495" y="126" width="30" height="22"/>
+  <rect class="slot" x="525" y="126" width="30" height="22"/>
+  <rect class="slot" x="555" y="126" width="30" height="22"/>
+  <rect class="slot" x="585" y="126" width="30" height="22"/>
+  <rect class="slot" x="615" y="126" width="30" height="22"/>
+  <rect class="slot" x="645" y="126" width="30" height="22"/>
+  <rect class="slot" x="675" y="126" width="30" height="22"/>
+  <rect class="slot" x="705" y="126" width="30" height="22"/>
+  <rect class="slot" x="735" y="126" width="30" height="22"/>
+  <rect class="slot" x="765" y="126" width="30" height="22"/>
+
+  <!-- three consumers read the same slots -->
+  <line class="link" x1="515" y1="190" x2="515" y2="159" marker-end="url(#dep-arrow)"/>
+  <line class="link" x1="645" y1="190" x2="645" y2="159" marker-end="url(#dep-arrow)"/>
+  <line class="link" x1="775" y1="190" x2="775" y2="159" marker-end="url(#dep-arrow)"/>
+  <text class="sub" x="523" y="178">read</text>
+
+  <rect class="box" x="460" y="190" width="110" height="36" rx="4"/>
+  <rect class="box" x="590" y="190" width="110" height="36" rx="4"/>
+  <rect class="box" x="720" y="190" width="110" height="36" rx="4"/>
+  <text class="mid" x="515" y="213">Journaler</text>
+  <text class="mid" x="645" y="213">Replicator</text>
+  <text class="mid" x="775" y="213">Unmarshaller</text>
+
+  <!-- the business logic processor watches their sequences -->
+  <line class="wire" x1="530" y1="228" x2="590" y2="274" marker-end="url(#dep-arrow)"/>
+  <line class="wire" x1="645" y1="228" x2="645" y2="274" marker-end="url(#dep-arrow)"/>
+  <line class="wire" x1="760" y1="228" x2="700" y2="274" marker-end="url(#dep-arrow)"/>
+  <text class="sub" x="468" y="250">watches their</text>
+  <text class="sub" x="468" y="264">sequences</text>
+
+  <rect class="box" x="545" y="276" width="200" height="36" rx="4"/>
+  <text class="title mid" x="645" y="299">Business Logic Processor</text>
+
+  <!-- and reads the same slots too -->
+  <path class="link" d="M545,294 H455 V128 H477" marker-end="url(#dep-arrow)"/>
+
+  <text class="sub mid" x="645" y="333">1 ring buffer, no queues: every event stays in its slot</text>
+</svg>

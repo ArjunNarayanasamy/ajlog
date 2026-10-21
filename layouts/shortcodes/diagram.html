@@ -1,11 +1,17 @@
 {{- $name := .Get "name" -}}
-{{- $svg := resources.Get (printf "diagrams/%s.svg" $name) -}}
+{{- /* Look in the post's own folder first (assets/diagrams/<post>/), then fall back to shared diagrams. */ -}}
+{{- $post := .Page.File.ContentBaseName -}}
+{{- $svg := resources.Get (printf "diagrams/%s/%s.svg" $post $name) -}}
 {{- if not $svg -}}
-  {{- errorf "diagram %q not found, expected assets/diagrams/%s.svg: %s" $name $name .Position -}}
+  {{- $svg = resources.Get (printf "diagrams/%s.svg" $name) -}}
 {{- end -}}
+{{- if not $svg -}}
+  {{- errorf "diagram %q not found, expected assets/diagrams/%s/%s.svg or assets/diagrams/%s.svg: %s" $name $post $name $name .Position -}}
+{{- else -}}
 <figure class="diagram">
   <div class="diagram-scroll">{{ $svg.Content | safeHTML }}</div>
   {{- with .Get "caption" }}
   <figcaption>{{ . | markdownify }}</figcaption>
   {{- end }}
 </figure>
+{{- end -}}
